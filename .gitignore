@@ -1,0 +1,29 @@
+# Ignorera node_modules-katalogen
+node_modules/
+
+# Ignorera tränade datafiler för Tesseract
+*.traineddata
+
+# Ignorera miljövariabler-filen
+.env
+
+# Ignorera loggfiler
+*.log
+
+# Ignorera Docker-relaterade filer som skapas vid byggnad
+docker-compose.yml
+docker-compose.override.yml
+
+# Ignorera eventuella tempfiler eller swap-filer
+*.swp
+*~
+
+# Ignorera OS-specifika filer
+.DS_Store
+Thumbs.db
+
+# Ignorera prompt-filen om den innehåller känslig information
+prompt.txt
+
+# Ignorera tesseract data fil
+swe.traineddata
