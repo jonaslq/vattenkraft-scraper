@@ -92,7 +92,7 @@ docker run -e SCRAPING_INTERVAL=4 -e DEBUG_MODE=true -p 3080:3080 ditt-användar
    Klona repositoryt om du inte redan har gjort det och navigera till projektets rotkatalog.
 
    ```bash
-   git clone https://github.com/ditt-användarnamn/vattenkraft-scraper.git
+   git clone https://github.com/jonaslq/vattenkraft-scraper.git
    cd vattenkraft-scraper
    ```
 
