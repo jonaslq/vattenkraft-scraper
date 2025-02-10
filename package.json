@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node --env-file=.env index.js",
+    "dev": "nodemon --env-file=.env index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,5 +18,8 @@
     "luxon": "^3.5.0",
     "node-cron": "^3.0.3",
     "tesseract.js": "^5.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
   }
 }
