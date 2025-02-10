@@ -1,0 +1,6 @@
+version: '3'
+services:
+  vattenkraft-scraper:
+    build: .
+    ports:
+      - "3080:3080"

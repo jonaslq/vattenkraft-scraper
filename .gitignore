@@ -5,13 +5,12 @@ node_modules/
 *.traineddata
 
 # Ignorera miljövariabler-filen
-.env
+
 
 # Ignorera loggfiler
 *.log
 
 # Ignorera Docker-relaterade filer som skapas vid byggnad
-docker-compose.yml
 docker-compose.override.yml
 
 # Ignorera eventuella tempfiler eller swap-filer

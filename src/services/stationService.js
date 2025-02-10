@@ -1,7 +1,6 @@
 const { getStationUrls } = require('../scrapers/scraper');
 const { scrapeStation, createWorkerInstance } = require('../scrapers/stationScraper');
 const { log } = require('../utils/logger');
-const { DateTime } = require('luxon');
 
 class StationService {
     constructor() {
