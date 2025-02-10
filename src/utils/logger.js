@@ -1,6 +1,4 @@
 // logger.js
-const { DateTime } = require('luxon');
-
 const LOG_LEVELS = {
   ERROR: 'error',
   WARN: 'warn',
@@ -30,17 +28,15 @@ function getTimestamp() {
     `${pad(stockholmDate.getHours())}:${pad(stockholmDate.getMinutes())}:${pad(stockholmDate.getSeconds())}`;
 }
 
-function log(message, level = LOG_LEVELS.INFO) {
-  if (!shouldLog(level)) return;
-
-  const timestamp = getTimestamp();
-  const color = COLORS[level] || COLORS.info;
-  console.log(`${color}${timestamp} ${level.toUpperCase()}: ${message}${COLORS.reset}`);
+function log(message) {
+  const timestamp = new Date().toLocaleString('sv-SE');
+  console.log(`${timestamp} INFO: ${message}`);
 }
 
 function debugLog(message) {
   if (debugMode) {
-    console.log(`${getTimestamp()} DEBUG: ${message}`);
+    const timestamp = new Date().toLocaleString('sv-SE');
+    console.log(`${timestamp} DEBUG: ${message}`);
   }
 }
 
@@ -67,12 +63,6 @@ function debug(message) {
 }
 
 module.exports = {
-  error,
-  warn,
-  info,
-  debug,
-  LOG_LEVELS,
   log,
-  debugLog,
-  debugMode
+  debugLog
 };
