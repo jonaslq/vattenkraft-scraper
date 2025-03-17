@@ -1,6 +1,15 @@
-version: '3'
 services:
   vattenkraft-scraper:
-    build: .
-    ports:
-      - "3080:3080"
+    image: vattenkraft-scraper:latest
+    container_name: vattenkraft-scraper
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - NODE_ENV=production
+      - TZ=Europe/Stockholm
+      # Add any additional environment variables here
+      # - DATABASE_URL=xxx
+      # - API_KEY=xxx
+    # Alternatively, use an env_file:
+    # env_file:
+    #   - .env.production

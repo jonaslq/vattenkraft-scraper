@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+# .env  <-- Remove this line to include .env
+# .env.* <-- Modify as needed
+*.md
+.vscode
+coverage
+.DS_Store
+*.log
+tmp

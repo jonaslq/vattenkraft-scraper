@@ -23,7 +23,20 @@ const stationController = new StationController(stationService);
 
 app.use(express.json());
 app.use(requestLogger);
-app.use('/api', stationRoutes(stationController));
+
+// Updated: Use versioned API routes
+app.use('/api/v1', stationRoutes(stationController));
+
+// Add healthcheck endpoint
+app.get('/api/v1/healthcheck', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    service: 'vattenkraft-scraper',
+    uptime: process.uptime()
+  });
+});
+
 app.use(errorHandler);
 
 // Start server and initialize scraping
