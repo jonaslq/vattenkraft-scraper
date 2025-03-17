@@ -21,10 +21,13 @@ class StationController {
             });
         }
 
-        debugLog(`Returning ${stations.length} stations`);
+        // Enhanced validation for complete data structure
+        const validatedStations = stations.map(station => this.validateStationStructure(station));
+
+        debugLog(`Returning ${validatedStations.length} stations with complete data structure`);
         return res.status(200).json({
-            count: stations.length,
-            data: stations
+            count: validatedStations.length,
+            data: validatedStations
         });
     }
 
@@ -39,9 +42,12 @@ class StationController {
                 });
             }
 
+            // Enhanced validation for complete data structure
+            const validatedStation = this.validateStationStructure(station);
+
             return res.status(200).json({
                 success: true,
-                data: station
+                data: validatedStation
             });
         } catch (error) {
             return res.status(500).json({
@@ -49,6 +55,34 @@ class StationController {
                 error: error.message
             });
         }
+    }
+
+    // Helper method to ensure complete data structure
+    validateStationStructure(station) {
+        // Create a new object to avoid modifying the original
+        const validatedStation = { ...station };
+
+        // Ensure fakta object with all required fields
+        validatedStation.fakta = {
+            namn: station.fakta?.namn || station.fakta || '',
+            land: station.fakta?.land || '',
+            elektriskEffekt: station.fakta?.elektriskEffekt || '',
+            vattendrag: station.fakta?.vattendrag || '',
+            fallhojd: station.fakta?.fallhojd || '',
+            maxvattenflode: station.fakta?.maxvattenflode || ''
+        };
+
+        // Ensure vatteninformation object with all required fields
+        validatedStation.vatteninformation = {
+            senasteUppdatering: station.vatteninformation?.senasteUppdatering || '',
+            ovanDamm: station.vatteninformation?.ovanDamm || 0,
+            underDamm: station.vatteninformation?.underDamm || 0,
+            totalt: station.vatteninformation?.totalt || 0,
+            genomTurbin: station.vatteninformation?.genomTurbin || 0,
+            genomDammLucka: station.vatteninformation?.genomDammLucka || 0
+        };
+
+        return validatedStation;
     }
 }
 

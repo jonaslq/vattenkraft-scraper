@@ -84,14 +84,83 @@ function validateWaterInfo(vatteninformation) {
   return hasRequiredFields && hasValidNumbers;
 }
 
+/**
+ * Extracts all fact data from the station HTML
+ * @param {CheerioStatic} $ Loaded Cheerio instance
+ * @returns {Object} Extracted fact information
+ */
+function extractFactData($) {
+  const facts = {};
+
+  // Process all fact elements from both article and aside sections
+  $('.span100.fact.line').each((i, el) => {
+    const label = $(el).find('.fact-label').text().trim();
+    const factDataDiv = $(el).find('.fact-data');
+
+    // Skip water information elements
+    if (factDataDiv.hasClass('water-image')) {
+      return;
+    }
+
+    // Get only the immediate text content (skipping unit spans)
+    let value = '';
+    if (factDataDiv.length > 0) {
+      factDataDiv.contents().each((i, node) => {
+        if (node.type === 'text') {
+          value += $(node).text().trim();
+        }
+      });
+
+      // Fall back to full text if direct text extraction failed
+      if (!value.trim()) {
+        value = factDataDiv.text().trim();
+      }
+
+      // Map common facts to our data structure
+      if (label) {
+        const normalizedLabel = normalizeFactLabel(label);
+        facts[normalizedLabel] = value.trim();
+      }
+    }
+  });
+
+  return {
+    namn: facts.namn || $('h1').text().trim(),
+    land: facts.country || facts.land || '',
+    elektriskEffekt: facts.electricitycapacity || facts.elektriskEffekt || '',
+    vattendrag: facts.stream || facts.vattendrag || '',
+    fallhojd: facts.head || facts.fallhojd || '',
+    maxvattenflode: facts.waterdischarge || facts.maxvattenflode || ''
+  };
+}
+
+/**
+ * Normalizes fact labels to consistent keys
+ * @param {string} label The label text from HTML
+ * @returns {string} Normalized key for the fact
+ */
+function normalizeFactLabel(label) {
+  const normalized = label.toLowerCase().replace(/\s+/g, '');
+
+  const mapping = {
+    'country': 'land',
+    'electricitycapacity': 'elektriskEffekt',
+    'stream': 'vattendrag',
+    'head': 'fallhojd',
+    'waterdischarge': 'maxvattenflode'
+  };
+
+  return mapping[normalized] || normalized;
+}
+
 async function scrapeStation(url, worker) {
   try {
     const response = await axios.get(url);
     const $ = cheerio.load(response.data);
 
-    // Basic info
-    const fakta = {};
-    fakta.namn = $('h1').text().trim();
+    // Extract all fact data
+    const fakta = extractFactData($);
+    debugLog(`Extracted facts for ${fakta.namn}: ${JSON.stringify(fakta)}`);
 
     // Check if water info section exists
     const waterSection = $('#water');
@@ -152,5 +221,6 @@ module.exports = {
   createWorkerInstance,
   scrapeStation,
   ocrImage,
-  parseNumber
+  parseNumber,
+  extractFactData // Export for testing
 };

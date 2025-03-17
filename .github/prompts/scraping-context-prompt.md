@@ -15,7 +15,9 @@ Data structure:
     namn: string,
     land: string,
     elektriskEffekt: string,
-    vattendrag: string
+    vattendrag: string,
+    fallhojd: string,       // Fall height (head)
+    maxvattenflode: string  // Maximum water flow (water discharge)
   },
   vatteninformation: {
     senasteUppdatering: string,
