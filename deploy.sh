@@ -40,7 +40,7 @@ ssh $SERVER_USER@$SERVER_HOST "mkdir -p $SERVER_PATH"
 
 # Copy the compressed Docker image and docker-compose.yml
 echo "📤 Transferring files to server..."
-scp vattenkraft-scraper-image.tar.zst docker-compose.yml $SERVER_USER@$SERVER_HOST:$SERVER_PATH/
+scp vattenkraft-scraper-image.tar.zst docker-compose.yml .env $SERVER_USER@$SERVER_HOST:$SERVER_PATH/
 
 # Deploy on the server with cleanup
 echo "🔄 Deploying on server..."
